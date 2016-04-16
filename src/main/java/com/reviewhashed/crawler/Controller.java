@@ -19,6 +19,7 @@ public class Controller {
 	private void startCrawl() throws Exception {
 		CrawlConfig config = new CrawlConfig();
 		config.setCrawlStorageFolder(crawlLocation);
+		config.setUserAgentString("Reviewrehash - http://cs.nyu.edu/~ajr619/crawlbot.html");
 
 		PageFetcher pageFetcher = new PageFetcher(config);
 		RobotstxtConfig robotstxtConfig = new RobotstxtConfig();

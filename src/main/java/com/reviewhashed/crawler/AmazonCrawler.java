@@ -16,7 +16,7 @@ public class AmazonCrawler extends WebCrawler {
 	public boolean shouldVisit(Page referringPage, WebURL url) {
 		String href = url.getURL().toLowerCase();
 
-		return !FILTERS.matcher(href).matches() && href.startsWith("http://amazon.com/");
+		return !FILTERS.matcher(href).matches() && href.startsWith("https://amazon.com/");
 	}
 
 	@Override
