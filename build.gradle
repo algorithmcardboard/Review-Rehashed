@@ -34,6 +34,10 @@ task crawlerjar(type: Jar) {
     with jar
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}
+
 uploadArchives {
     repositories {
        flatDir {
