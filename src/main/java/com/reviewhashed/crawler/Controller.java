@@ -1,5 +1,8 @@
 package com.reviewhashed.crawler;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 
@@ -10,31 +13,35 @@ import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
 
 public class Controller {
-  @Parameter(names = { "-rootFolder", "-r" }, required = true)
-  private String rootFolder;
-  
+	@Parameter(names = { "-rootFolder", "-r" }, required = true)
+	private String rootFolder;
+
 	@Parameter(names = { "-location", "-l" }, required = true)
 	private static String crawlLocation;
 
 	@Parameter(names = { "-ncrawl", "-n" }, required = true)
 	private int numCrawlers;
 
+	@Parameter(names = { "-seedUrls", "-s" }, required = true)
+	private String seedUrlsFile;
+
 	private void startCrawl() throws Exception {
 		CrawlConfig config = new CrawlConfig();
 		config.setCrawlStorageFolder(crawlLocation);
 		config.setUserAgentString("Reviewrehash - http://cs.nyu.edu/~ajr619/crawlbot.html");
-		String[] crawlDomains = {"http://www.amazon.com/"};
-
 
 		PageFetcher pageFetcher = new PageFetcher(config);
 		RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
 		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 		CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
-		
-		for (String domain : crawlDomains) {
-      controller.addSeed(domain);
-    }
-		AmazonCrawler.configure(crawlDomains, crawlLocation);
+
+		try (BufferedReader br = new BufferedReader(new FileReader(this.seedUrlsFile))) {
+			for (String domain; (domain = br.readLine()) != null;) {
+				System.out.println("Adding domain " + domain);
+				controller.addSeed(domain);
+			}
+		}
+		AmazonCrawler.configure(crawlLocation);
 
 		controller.start(AmazonCrawler.class, this.numCrawlers);
 	}

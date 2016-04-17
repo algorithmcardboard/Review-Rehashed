@@ -3,7 +3,6 @@ package com.reviewhashed.crawler;
 import java.io.File;
 import java.io.IOException;
 import java.util.Set;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 import com.google.common.io.Files;
@@ -17,10 +16,8 @@ public class AmazonCrawler extends WebCrawler {
 
 	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg|png|mp3|mp3|zip|gz))$");
 	private static File storageFolder;
-  private static String[] crawlDomains;
   
-	 public static void configure(String[] domain, String storageFolderName) {
-	    crawlDomains = domain;
+	 public static void configure(String storageFolderName) {
 
 	    storageFolder = new File(storageFolderName);
 	    if (!storageFolder.exists()) {
@@ -35,11 +32,6 @@ public class AmazonCrawler extends WebCrawler {
       return false;
     }
     
-    for (String domain : crawlDomains) {
-      if (href.startsWith(domain)) {
-        return true;
-      }
-    }
     return false;
   }
 
@@ -54,7 +46,8 @@ public class AmazonCrawler extends WebCrawler {
 			String html = htmlParseData.getHtml();
 			Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
-			String hashedName = UUID.randomUUID().toString();
+			String hashedName = page.getWebURL().getPath();
+//			String hashedName = UUID.randomUUID().toString();
 			String filename = storageFolder.getAbsolutePath() + "/" + hashedName;
 	    try {
 	      Files.write(page.getContentData(), new File(filename));
