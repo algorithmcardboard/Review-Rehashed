@@ -98,3 +98,4 @@ segments_*
 docs
 Prog3Example
 log4j.properties
+.venv
