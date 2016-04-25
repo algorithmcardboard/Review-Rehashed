@@ -1,63 +1,50 @@
 package com.reviewhashed.crawler;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Set;
-import java.util.regex.Pattern;
 
-import com.google.common.io.Files;
+import org.slf4j.Logger;
 
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
-import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
+import uk.org.lidalia.slf4jext.LoggerFactory;
 
 public class AmazonCrawler extends WebCrawler {
 
-	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg|png|mp3|mp3|zip|gz))$");
+	private static final Logger logger = LoggerFactory.getLogger(AmazonCrawler.class);
 	private static File storageFolder;
-  
-	 public static void configure(String storageFolderName) {
+	private static Set<String> allowedASINs;
 
-	    storageFolder = new File(storageFolderName);
-	    if (!storageFolder.exists()) {
-	      storageFolder.mkdirs();
-	    }
-	  }
-	 
+	public static void configure(String storageFolderName) {
+
+		storageFolder = new File(storageFolderName);
+		if (!storageFolder.exists()) {
+			storageFolder.mkdirs();
+		}
+	}
+	
+	public static void setAllowedUrls(Set<String> allowedUrls){
+		allowedASINs = allowedUrls;
+	}
+
 	@Override
 	public boolean shouldVisit(Page referringPage, WebURL url) {
-    String href = url.getURL().toLowerCase();
-    if (FILTERS.matcher(href).matches()) {
-      return false;
-    }
-    
-    return false;
-  }
+		
+		String urlString = url.getURL().toLowerCase();
+		String asin = urlString.substring(urlString.lastIndexOf("/")+1, urlString.length());
+		
+		if(allowedASINs.contains(asin)){
+			System.out.println("returning true");
+			return true;
+		}
+		System.out.println("Returning false" + url.getURL().toLowerCase() + " " + asin);
+		return false;
+	}
 
 	@Override
 	public void visit(Page page) {
-		String url = page.getWebURL().getURL();
-		System.out.println("URL: " + url);
-
-		if (page.getParseData() instanceof HtmlParseData) {
-			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
-			String text = htmlParseData.getText();
-			String html = htmlParseData.getHtml();
-			Set<WebURL> links = htmlParseData.getOutgoingUrls();
-
-			String hashedName = page.getWebURL().getPath();
-//			String hashedName = UUID.randomUUID().toString();
-			String filename = storageFolder.getAbsolutePath() + "/" + hashedName;
-	    try {
-	      Files.write(page.getContentData(), new File(filename));
-	      logger.info("Stored: {}", url);
-	    } catch (IOException iox) {
-	      logger.error("Failed to write file: " + filename, iox);
-	    }
-			System.out.println("Text length: " + text.length());
-			System.out.println("Html length: " + html.length());
-			System.out.println("Number of outgoing links: " + links.size());
-		}
+		System.out.println("Visited page "+ page.getWebURL());
+		super.visit(page);
 	}
 }

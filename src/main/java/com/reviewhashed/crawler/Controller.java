@@ -2,6 +2,8 @@ package com.reviewhashed.crawler;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
@@ -29,21 +31,31 @@ public class Controller {
 		CrawlConfig config = new CrawlConfig();
 		config.setCrawlStorageFolder(crawlLocation);
 		config.setUserAgentString("Reviewrehash - http://cs.nyu.edu/~ajr619/crawlbot.html");
+		config.setIncludeBinaryContentInCrawling(true);
 
 		PageFetcher pageFetcher = new PageFetcher(config);
 		RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
 		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 		CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
+		
+		Set<String> allowedUrls = new HashSet<>();
 
 		try (BufferedReader br = new BufferedReader(new FileReader(this.seedUrlsFile))) {
 			for (String domain; (domain = br.readLine()) != null;) {
+				String seedUrl = getAmazonUrl(domain);
 				System.out.println("Adding domain " + domain);
-				controller.addSeed(domain);
+				controller.addSeed(seedUrl);
+				allowedUrls.add(domain.toLowerCase());
 			}
 		}
 		AmazonCrawler.configure(crawlLocation);
+		AmazonCrawler.setAllowedUrls(allowedUrls);
 
 		controller.start(AmazonCrawler.class, this.numCrawlers);
+	}
+
+	private String getAmazonUrl(String domain) {
+		return "http://www.amazon.com/test-crawling/dp/"+domain;
 	}
 
 	public static void main(String[] args) {
