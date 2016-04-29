@@ -108,7 +108,7 @@ public class ReviewsCrawler extends WebCrawler {
     FileOutputStream fos = null;
     try {
       logger.info("Visited page now"+ page.getWebURL());
-      File file = new File(folder.getPath()+"\\"+pageNumber+".html");
+      File file = new File(folder.getPath()+"/"+pageNumber+".html");
       fos = new FileOutputStream(file);
       fos.write(page.getContentData());
     } catch (IOException e) {

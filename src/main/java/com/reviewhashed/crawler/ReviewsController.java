@@ -49,7 +49,7 @@ public class ReviewsController {
 
     Set<String> allowedUrls = new HashSet<>();
 
-    CSVReader reader = new CSVReader(new FileReader(this.seedUrlsFile), '\t','"');
+    CSVReader reader = new CSVReader(new FileReader(this.seedUrlsFile), ',','"');
     String[] newLine;
 
     while((newLine = reader.readNext()) != null){
