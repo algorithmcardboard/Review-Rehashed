@@ -19,6 +19,9 @@ public class Parser {
       sb.append("\n");
     }
     return sb.toString();
-    
+  }
+  
+  public String getReviews(File Page){
+    return "";
   }
 }
