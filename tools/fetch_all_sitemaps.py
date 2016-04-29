@@ -6,7 +6,7 @@ import urllib
 
 count = 0
 NUM_PROCESS = 2
-OUTPUT_DIR = '/scratch/ajr619/review-rehashed/data/sitemaps.3/'
+OUTPUT_DIR = '/scratch/ajr619/review-rehashed/data/bestbuy/sitemaps/'
 
 def worker(chunk):
     url = chunk[0][0]
@@ -20,7 +20,7 @@ def keyfunc(row):
 
 def main():
     #URLS_FILE = '/home/ajr619/workspace/amazon/all_sitemap.urls'
-    URLS_FILE = '/home/ajr619/workspace/amazon/remaining.3.urls'
+    URLS_FILE = '/home/ajr619/workspace/bestbuy/urls'
 
     pool = mp.Pool()
 
@@ -36,9 +36,9 @@ def main():
             else:
                 break
             iteration = iteration +1
-            time.sleep(0.3)
+            time.sleep(0.5)
             if(iteration % 50 == 0):
-                time.sleep(5)
+                time.sleep(20)
                 print "Done downloading ",iteration*NUM_PROCESS
 
     pool.close()
