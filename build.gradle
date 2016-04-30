@@ -26,6 +26,10 @@ shadowJar {
     mergeServiceFiles()
 }
 
+configurations {
+  runtime.exclude group: "org.slf4j", module: "slf4j-log4j12"
+}
+
 dependencies {
     compile 	'edu.uci.ics:crawler4j:4.2',
     			'com.beust:jcommander:1.48',
