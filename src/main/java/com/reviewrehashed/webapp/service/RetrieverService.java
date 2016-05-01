@@ -39,6 +39,24 @@ public class RetrieverService {
 		Directory fsDir = FSDirectory.open(indexDir.toPath());
 		IndexSearcher is = new IndexSearcher(DirectoryReader.open(fsDir));
 
+		Query booleanQuery = getSearchQuery(featureQuery, productQuery);
+
+		long start = new Date().getTime();
+		TopDocs hits = is.search(booleanQuery, 20);
+		
+		long end = new Date().getTime();
+		System.out.println("Found " + hits.totalHits + " document(s) (in " + (end - start)
+				+ " milliseconds) that matched query '" + productQuery + ": " + featureQuery + "':");
+
+		for (int i = 0; i < hits.scoreDocs.length; i++) {
+			ScoreDoc scoreDoc = hits.scoreDocs[i];
+			resultDocs.add(is.doc(scoreDoc.doc));
+		}
+		System.out.println("within service "+ resultDocs.size());
+		return resultDocs;
+	}
+
+	private Query getSearchQuery(String featureQuery, String productQuery) {
 		Query productQuery1 = new TermQuery(new Term(HTMLParser.REVIEW_TITLE, productQuery));
 		Query productQuery2 = new TermQuery(new Term(HTMLParser.PRODUCT_TITLE, productQuery));
 		Query productQuery3 = new TermQuery(new Term(HTMLParser.REVIEW_CONTENT, productQuery));
@@ -57,19 +75,6 @@ public class RetrieverService {
 		Builder queryBuilder = new BooleanQuery.Builder();
 		BooleanQuery booleanQuery = queryBuilder.add(booleanProductQuery, BooleanClause.Occur.MUST)
 				.add(booleanFeatureQuery, BooleanClause.Occur.MUST).build();
-
-		long start = new Date().getTime();
-		TopDocs hits = is.search(booleanQuery, 20);
-		
-		long end = new Date().getTime();
-		System.out.println("Found " + hits.totalHits + " document(s) (in " + (end - start)
-				+ " milliseconds) that matched query '" + productQuery + ": " + featureQuery + "':");
-
-		for (int i = 0; i < hits.scoreDocs.length; i++) {
-			ScoreDoc scoreDoc = hits.scoreDocs[i];
-			resultDocs.add(is.doc(scoreDoc.doc));
-		}
-		System.out.println("within service "+ resultDocs.size());
-		return resultDocs;
+		return booleanQuery;
 	}
 }

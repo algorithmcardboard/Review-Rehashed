@@ -44,7 +44,6 @@ public class ReviewsCrawler extends WebCrawler {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public static void configure(String storageFolderName, String crawlDataLocation) {
