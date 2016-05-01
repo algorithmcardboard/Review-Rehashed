@@ -1,4 +1,4 @@
-package com.reviewhashed.webapp.service;
+package com.reviewrehashed.webapp.service;
 
 import java.io.File;
 import java.util.Date;
