@@ -21,7 +21,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 
-import com.reviewhashed.crawler.ReviewsController;
+import com.reviewrehashed.crawler.ReviewsController;
 
 import uk.org.lidalia.slf4jext.LoggerFactory;
 

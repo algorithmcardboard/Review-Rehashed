@@ -1,4 +1,4 @@
-package com.reviewhashed.crawler;
+package com.reviewrehashed.crawler;
 
 import java.io.File;
 import java.io.FileReader;

@@ -1,4 +1,4 @@
-package com.reviewhashed.crawler;
+package com.reviewrehashed.crawler;
 
 import java.util.HashMap;
 import java.util.HashSet;
