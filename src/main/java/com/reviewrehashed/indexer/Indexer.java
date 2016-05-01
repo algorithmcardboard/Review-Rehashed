@@ -1,9 +1,7 @@
 package com.reviewrehashed.indexer;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,6 +26,8 @@ public class Indexer {
 
   private static final Logger logger = LoggerFactory.getLogger(Indexer.class);
 
+  private HTMLParser parser = new HTMLParser();
+
   @Parameter(names = { "-index", "-i" }, required = true)
   private String indexDirPath;
   @Parameter(names = { "-docs", "-d" }, required = true)
@@ -49,7 +49,7 @@ public class Indexer {
   }
 
   // open an index and start file directory traversal
-  public static int index(File indexDir, File dataDir) throws IOException {
+  public int index(File indexDir, File dataDir) throws IOException {
     if (!dataDir.exists() || !dataDir.isDirectory()) {
       throw new IOException(dataDir + " does not exist or is not a directory");
     }
@@ -80,28 +80,14 @@ public class Indexer {
     return numIndexed;
   }
 
-//  private static void indexDirectory(IndexWriter writer, File dir) throws IOException {
-//    File[] files = dir.listFiles();
-//    for (int i = 0; i < files.length; i++) {
-//      File f = files[i];
-//      if (f.isDirectory()) {
-//        indexDirectory(writer, f);
-//      } else if (f.getName().endsWith(".html") || f.getName().endsWith(".htm")) {
-//        indexFile(writer, f);
-//      }
-//    }
-//  }
-
   // method to actually index a file using Lucene
-  private static void indexFile(IndexWriter writer, File f) throws IOException {
+  private void indexFile(IndexWriter writer, File f) throws IOException {
     if (f.isHidden() || !f.exists() || !f.canRead()) {
       return;
     }
     System.out.println("Indexing " + f.getCanonicalPath());
-    HTMLParser parser = new HTMLParser();
-    Document doct = new Document();
-    InputStream is = new FileInputStream(f);
-    doct = parser.getDocument(is, f);
-    writer.addDocument(doct);
+    for (Document document : parser.getDocument(f)) {
+      writer.addDocument(document);
+    }
   }
 }
