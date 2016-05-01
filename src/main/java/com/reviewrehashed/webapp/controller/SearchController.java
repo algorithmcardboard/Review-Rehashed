@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.reviewhashed.webapp.service.RetrieverService;
 import com.reviewrehashed.webapp.dto.SearchResult;
 
 import uk.org.lidalia.slf4jext.LoggerFactory;
