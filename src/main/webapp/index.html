@@ -23,18 +23,31 @@
 			<div class="col-md-offset-2 col-md-10">
 				<form class="form-inline" ng-submit="doSearch()">
 					<div class="form-group">
-						<label for="featureName">Feature *</label> 
-						<input type="text" ng-model="filter.feature"
-							class="form-control" id="featureName" placeholder="Battery Life">
+						<label for="featureName">Feature *</label> <input type="text"
+							ng-model="filter.feature" class="form-control" id="featureName"
+							placeholder="Battery Life" autofocus="true">
 					</div>
 					<div class="form-group">
-						<label for="productGroup">Product Group</label> 
-						<input type="text" ng-model="filter.product"
-							class="form-control" id="productGroup"
+						<label for="productGroup">Product Group</label> <input type="text"
+							ng-model="filter.product" class="form-control" id="productGroup"
 							placeholder="Product Group (iPhone, LG, LG G3)">
 					</div>
 					<button type="submit" class="btn btn-primary">Search</button>
 				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-offset-2 col-md-8">
+				<div class="list-group" >
+					<div class="list-group-item" ng-repeat="r in results">
+						<div><strong>{{r.reviewTitle}}</strong></div>
+						<div>{{r.reviewContent}}</div>
+						<div>
+							<a ng-href="{{getReviewURL(r)}}">{{getReviewURL(r)}}</a>
+						</div>
+						<div></div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
