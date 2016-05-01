@@ -84,7 +84,11 @@ public class HTMLParser {
     String helpful = feature.select("span.cr-vote").select("span.a-color-secondary").text();
     if (helpful.contains("found")) {
       try {
-        numberFeltHelpful = Integer.parseInt(helpful.substring(0, 1));
+    	String str = helpful.substring(0, helpful.indexOf(' '));
+    	if("one".equalsIgnoreCase(str)){
+    		str = "1";
+    	}
+        numberFeltHelpful = Integer.parseInt(str);
       } catch (IllegalArgumentException e) {
         logger.error("Exception caught for NumberFeltHelpful -  ", e);
       }
