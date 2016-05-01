@@ -51,23 +51,25 @@ public class RetrieverService {
 		Query featureQuery2 = new TermQuery(new Term(HTMLParser.REVIEW_TITLE, featureQuery));
 
 		Builder featureQueryBuilder = new BooleanQuery.Builder();
-		BooleanQuery booleanFeatureQuery = featureQueryBuilder.add(featureQuery1, BooleanClause.Occur.MUST)
+		BooleanQuery booleanFeatureQuery = featureQueryBuilder.add(featureQuery1, BooleanClause.Occur.SHOULD)
 				.add(featureQuery2, BooleanClause.Occur.SHOULD).build();
 
 		Builder queryBuilder = new BooleanQuery.Builder();
-		BooleanQuery booleanQuery = queryBuilder.add(booleanProductQuery, BooleanClause.Occur.SHOULD)
-				.add(booleanFeatureQuery, BooleanClause.Occur.SHOULD).build();
+		BooleanQuery booleanQuery = queryBuilder.add(booleanProductQuery, BooleanClause.Occur.MUST)
+				.add(booleanFeatureQuery, BooleanClause.Occur.MUST).build();
 
 		long start = new Date().getTime();
-		TopDocs hits = is.search(booleanQuery, 1);
+		TopDocs hits = is.search(booleanQuery, 20);
+		
 		long end = new Date().getTime();
-		System.err.println("Found " + hits.totalHits + " document(s) (in " + (end - start)
+		System.out.println("Found " + hits.totalHits + " document(s) (in " + (end - start)
 				+ " milliseconds) that matched query '" + productQuery + ": " + featureQuery + "':");
 
 		for (int i = 0; i < hits.scoreDocs.length; i++) {
 			ScoreDoc scoreDoc = hits.scoreDocs[i];
 			resultDocs.add(is.doc(scoreDoc.doc));
 		}
+		System.out.println("within service "+ resultDocs.size());
 		return resultDocs;
 	}
 }
