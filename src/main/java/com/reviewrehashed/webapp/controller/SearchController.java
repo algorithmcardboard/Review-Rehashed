@@ -32,11 +32,14 @@ public class SearchController {
 	@Autowired
 	private RetrieverService retrieverService;
 
+  private Gson gson = new Gson(); 
+	
 	@ResponseBody
 	@RequestMapping("search.do")
 	public ResponseEntity<String> search(@RequestParam("feature") String feature,
 			@RequestParam("product") String product) {
 		List<SearchResult> searchResults = new ArrayList<>();
+		List<Document> results = new ArrayList<>();
 
 		List<Document> results = new ArrayList<>();
 		try {
