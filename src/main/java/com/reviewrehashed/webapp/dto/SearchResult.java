@@ -10,7 +10,7 @@ public class SearchResult {
 	private String reviewId;
 	private Date reviewDate;
 	private int numFoundHelpful;
-	private int numStars;
+	private float numStars;
 	private int numComments;
 	private String productURL;
 	private String reviewTitle;
@@ -18,7 +18,7 @@ public class SearchResult {
 	private boolean verifiedPurchase;
 
 	private SearchResult(String productTitle, String reviewContent, int reviewLength, String asin, String reviewId,
-			Date reviewDate, int numFoundHelpful, int numStars, int numComments, String productURL, String reviewTitle,
+			Date reviewDate, int numFoundHelpful, float numStars, int numComments, String productURL, String reviewTitle,
 			int numImages, boolean verifiedPurchase) {
 		this.productTitle = productTitle;
 		this.reviewContent = reviewContent;
@@ -115,7 +115,7 @@ public class SearchResult {
 	/**
 	 * @return the numStars
 	 */
-	public int getNumStars() {
+	public float getNumStars() {
 		return numStars;
 	}
 
@@ -139,7 +139,7 @@ public class SearchResult {
 		result = prime * result + numComments;
 		result = prime * result + numFoundHelpful;
 		result = prime * result + numImages;
-		result = prime * result + numStars;
+		result = (int) (prime * result + numStars);
 		result = prime * result + ((productTitle == null) ? 0 : productTitle.hashCode());
 		result = prime * result + ((productURL == null) ? 0 : productURL.hashCode());
 		result = prime * result + ((reviewContent == null) ? 0 : reviewContent.hashCode());
@@ -223,7 +223,7 @@ public class SearchResult {
 		private String reviewId;
 		private Date reviewDate;
 		private int numFoundHelpful;
-		private int numStars;
+		private float numStars;
 		private int numComments;
 		private String productURL;
 		private String reviewTitle;
@@ -265,7 +265,7 @@ public class SearchResult {
 			return this;
 		}
 
-		public Builder addNumStars(int numStars) {
+		public Builder addNumStars(float numStars) {
 			this.numStars = numStars;
 			return this;
 		}
@@ -290,8 +290,11 @@ public class SearchResult {
 			return this;
 		}
 
-		public Builder addVerifiedPurchase(boolean verifiedPurchase) {
-			this.verifiedPurchase = verifiedPurchase;
+		public Builder addVerifiedPurchase(String verifiedPurchase) {
+		  this.verifiedPurchase = false;
+		  if (verifiedPurchase == "true"){
+		    this.verifiedPurchase = true;
+		  }
 			return this;
 		}
 

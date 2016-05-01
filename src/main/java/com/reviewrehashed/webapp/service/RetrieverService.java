@@ -51,12 +51,12 @@ public class RetrieverService {
 		Query featureQuery2 = new TermQuery(new Term(HTMLParser.REVIEW_TITLE, featureQuery));
 
 		Builder featureQueryBuilder = new BooleanQuery.Builder();
-		BooleanQuery booleanFeatureQuery = featureQueryBuilder.add(featureQuery1, BooleanClause.Occur.SHOULD)
+		BooleanQuery booleanFeatureQuery = featureQueryBuilder.add(featureQuery1, BooleanClause.Occur.MUST)
 				.add(featureQuery2, BooleanClause.Occur.SHOULD).build();
 
 		Builder queryBuilder = new BooleanQuery.Builder();
-		BooleanQuery booleanQuery = queryBuilder.add(booleanProductQuery, BooleanClause.Occur.MUST)
-				.add(booleanFeatureQuery, BooleanClause.Occur.MUST).build();
+		BooleanQuery booleanQuery = queryBuilder.add(booleanProductQuery, BooleanClause.Occur.SHOULD)
+				.add(booleanFeatureQuery, BooleanClause.Occur.SHOULD).build();
 
 		long start = new Date().getTime();
 		TopDocs hits = is.search(booleanQuery, 1);
