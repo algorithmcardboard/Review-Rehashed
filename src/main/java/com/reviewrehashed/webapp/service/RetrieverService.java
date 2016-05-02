@@ -8,6 +8,7 @@ import java.util.List;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
+import org.apache.lucene.queries.CustomScoreQuery;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.BooleanQuery.Builder;
@@ -21,6 +22,8 @@ import org.apache.lucene.store.FSDirectory;
 import org.springframework.stereotype.Service;
 
 import com.reviewrehashed.indexer.HTMLParser;
+import com.reviewrehashed.lucene.similarity.CustomSimilarity;
+import com.reviewrehashed.lucene.similarity.MyCustomScoreQuery;
 
 @Service
 public class RetrieverService {
@@ -38,11 +41,15 @@ public class RetrieverService {
 
 		Directory fsDir = FSDirectory.open(indexDir.toPath());
 		IndexSearcher is = new IndexSearcher(DirectoryReader.open(fsDir));
+		
+		is.setSimilarity(new CustomSimilarity());
 
 		Query booleanQuery = getSearchQuery(featureQuery, productQuery);
 
 		long start = new Date().getTime();
-		TopDocs hits = is.search(booleanQuery, 20);
+		CustomScoreQuery customQuery = new MyCustomScoreQuery(booleanQuery);
+		
+		TopDocs hits = is.search(customQuery, 20);
 		
 		long end = new Date().getTime();
 		System.out.println("Found " + hits.totalHits + " document(s) (in " + (end - start)
@@ -51,8 +58,9 @@ public class RetrieverService {
 		for (int i = 0; i < hits.scoreDocs.length; i++) {
 			ScoreDoc scoreDoc = hits.scoreDocs[i];
 			resultDocs.add(is.doc(scoreDoc.doc));
+			System.out.println(scoreDoc.score);
 		}
-		System.out.println("within service "+ resultDocs.size());
+		//System.out.println("within service "+ resultDocs.size());
 		return resultDocs;
 	}
 
