@@ -163,7 +163,10 @@ public class HTMLParser {
 			}
 
 			if ((reviewContent != null) && (!reviewContent.equals(""))) {
-				document.add(new TextField(REVIEW_CONTENT, reviewContent, Field.Store.YES));
+				String[] sentences = reviewContent.split(" ");
+				for(String str: sentences){
+					document.add(new TextField(REVIEW_CONTENT, str, Field.Store.YES));
+				}
 			}
 
 			if ((formattedReviewContent != null) && (!formattedReviewContent.equals(""))) {
