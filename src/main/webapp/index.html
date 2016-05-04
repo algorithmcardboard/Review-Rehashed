@@ -41,7 +41,7 @@
 				<div class="list-group" >
 					<div class="list-group-item" ng-repeat="r in results">
 						<div><strong>{{r.reviewTitle}}</strong></div>
-						<div>{{r.reviewContent}}</div>
+						<div ng-bind-html="r.formattedReviewContent | unsafe"></div>
 						<div>
 							<a ng-href="{{getReviewURL(r)}}">{{getReviewURL(r)}}</a>
 						</div>
