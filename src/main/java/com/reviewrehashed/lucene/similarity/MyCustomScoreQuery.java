@@ -7,11 +7,17 @@ import org.apache.lucene.index.LeafReaderContext;
 import org.apache.lucene.queries.CustomScoreProvider;
 import org.apache.lucene.queries.CustomScoreQuery;
 import org.apache.lucene.search.Query;
+import org.slf4j.Logger;
 
 import com.reviewrehashed.indexer.HTMLParser;
 
+import uk.org.lidalia.slf4jext.LoggerFactory;
+
 public class MyCustomScoreQuery extends CustomScoreQuery {
 
+	private static final Logger logger = LoggerFactory.getLogger(MyCustomScoreQuery.class);
+
+	protected static final double MUL_FACTOR = 0.01d;
 	private Query query;
 
 	public MyCustomScoreQuery(Query query) {
@@ -27,7 +33,7 @@ public class MyCustomScoreQuery extends CustomScoreQuery {
 
 				Document document = context.reader().document(doc);
 				double luceneScore = super.customScore(doc, subQueryScore, valSrcScore);
-				double luceneScoreNormalized = 1 / 1 + Math.exp(-luceneScore);
+				double luceneScoreNormalized = (1 / (1 + Math.exp(-luceneScore * MUL_FACTOR)));
 
 				// Calcualting intrinisic quality of the docdument
 
@@ -41,9 +47,16 @@ public class MyCustomScoreQuery extends CustomScoreQuery {
 					isVerifiedPurchase = 1;
 				}
 
-				double docQuality = 0.6 * 1 / 1 + Math.exp(-numHelpful) + 0.2 * (1 / 1 + Math.exp(-isVerifiedPurchase))
-						+ 0.13 * (1 / 1 + Math.exp(-numComments)) + 0.07 * (1 / 1 + Math.exp(-numImages));
-				double docQualityNormalized = 1 / 1 + Math.exp(-docQuality);
+				double docQuality = (0.6 * (1 / (1 + Math.exp(-numHelpful * 0.05))))
+						+ (0.2 * (1 / (1 + Math.exp(-isVerifiedPurchase * 100))))
+						+ (0.13 * (1 / (1 + Math.exp(-numComments * 0.1)))) 
+								+ (0.07 * (1 / (1 + Math.exp(-numImages))));
+
+				double docQualityNormalized = (1 / (1 + Math.exp(-docQuality)));
+
+				// System.out.println(luceneScore);
+				logger.info("Lucene score " + luceneScore + " " + luceneScoreNormalized);
+				logger.info("Doc quality " + docQuality + " " + docQualityNormalized);
 
 				// Calculating final score
 				float finalDocScore = (float) (0.25 * docQualityNormalized + 0.75 * luceneScoreNormalized);
