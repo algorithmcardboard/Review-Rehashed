@@ -6,7 +6,7 @@
 \graphicspath{{images/}}
 \usepackage{amssymb}
 \usepackage{listings}
-\usepackage{hyperref}
+\usepackage[colorlinks]{hyperref}
 \usepackage[T1]{fontenc}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -150,18 +150,10 @@ The reviews of the products in the search results are compared to the top review
 	\begin{description}
 		\item[Negative cases:] 
 			\begin{description}
-				\item[1 .] The results are not very accurate when conjuctive queries are given in the feature, for example.
-					\begin{figure}[ht!]
-					  \centering
-					  \includegraphics[width=1\textwidth]{scoring_piecewise_normalization}
-					  \caption{Scoring with different multiplicative factors for the dependent factors of the score - numHelpful=0.05, isVerifiedPurchase=100, numComments=0.1, numImages=1~\label{fig:Search_Engine}}
-					\end{figure}
-
+				\item[1 .] The results are not very accurate when conjuctive queries are given in the feature. An example can be "Camera Battery" as a search query for the feature of a product. We expect to see reviews containing both camera and battery in the review, however we see some reviews containing only battery and some reviews down the list, containing camera. This bahviour is erratic and the search results are not always consistent
+				\item[2 .] Search results are better without the scoring algorithm when the product query is null. For example, if we just give "Great phone, good battery life" for feature, search results did not show results which have the exact same line in the review title. This is because of the other factors we consider for determining the static score/quality of the document. However, in this scenario, we also expect to see some direct matches with reviews as well. 
 			\end{description}
 	\end{description}
-cases where it does not work well
-conjunctive queries within features will not show reviews with both the features discussed.
-Queries with null product name do not show accurate results with current scoring mechanism, return accurate results with just lucene score. Aadjective + feature does not always return accurate results
 
 \section{Challenges}
 \begin{description}
