@@ -1,5 +1,10 @@
 angular.module('searchApp', []);
-
+angular.module('searchApp').filter('unsafe', ['$sce', function($sce){
+	return function(val) {
+		console.log('in function invocation');
+		return $sce.trustAsHtml(val);
+	};
+}]);
 angular.module('searchApp').controller('SearchController',
 		[ '$scope', '$http', function($scope, $http) {
 
