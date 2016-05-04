@@ -94,8 +94,10 @@ segments_*
 *.dvi
 *.log
 *.ps
-*.bak
+projectWriteUp/Project.tex.bak
+
 docs
+oend{document}
 Prog3Example
 log4j.properties
 .venv
