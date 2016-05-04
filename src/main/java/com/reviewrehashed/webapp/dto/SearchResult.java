@@ -5,6 +5,7 @@ import java.util.Date;
 public class SearchResult {
 	private String productTitle;
 	private String reviewContent;
+	private String formattedReviewContent;
 	private int reviewLength;
 	private String asin;
 	private String reviewId;
@@ -17,11 +18,12 @@ public class SearchResult {
 	private int numImages;
 	private boolean verifiedPurchase;
 
-	private SearchResult(String productTitle, String reviewContent, int reviewLength, String asin, String reviewId,
-			Date reviewDate, int numFoundHelpful, float numStars, int numComments, String productURL, String reviewTitle,
-			int numImages, boolean verifiedPurchase) {
+	private SearchResult(String productTitle, String reviewContent, String formattedReviewContent, int reviewLength,
+			String asin, String reviewId, Date reviewDate, int numFoundHelpful, float numStars, int numComments,
+			String productURL, String reviewTitle, int numImages, boolean verifiedPurchase) {
 		this.productTitle = productTitle;
 		this.reviewContent = reviewContent;
+		this.formattedReviewContent = formattedReviewContent;
 		this.reviewLength = reviewLength;
 		this.asin = asin;
 		this.reviewId = reviewId;
@@ -96,6 +98,13 @@ public class SearchResult {
 	 */
 	public String getReviewContent() {
 		return reviewContent;
+	}
+
+	/**
+	 * @return the formattedReviewContent
+	 */
+	public String getFormattedReviewContent() {
+		return formattedReviewContent;
 	}
 
 	/**
@@ -229,6 +238,7 @@ public class SearchResult {
 		private String reviewTitle;
 		private int numImages;
 		private boolean verifiedPurchase;
+		private String formattedReview;
 
 		public Builder addProductTitle(String productTitle) {
 			this.productTitle = productTitle;
@@ -291,17 +301,22 @@ public class SearchResult {
 		}
 
 		public Builder addVerifiedPurchase(String verifiedPurchase) {
-		  this.verifiedPurchase = false;
-		  if (verifiedPurchase == "true"){
-		    this.verifiedPurchase = true;
-		  }
+			this.verifiedPurchase = false;
+			if (verifiedPurchase == "true") {
+				this.verifiedPurchase = true;
+			}
 			return this;
 		}
 
 		public SearchResult build() {
-			return new SearchResult(this.productTitle, this.reviewContent, this.reviewLength, this.asin, this.reviewId,
-					this.reviewDate, this.numFoundHelpful, this.numStars, this.numComments, this.productURL,
-					this.reviewTitle, this.numImages, this.verifiedPurchase);
+			return new SearchResult(this.productTitle, this.reviewContent, this.formattedReview,
+					this.reviewLength, this.asin, this.reviewId, this.reviewDate, this.numFoundHelpful, this.numStars,
+					this.numComments, this.productURL, this.reviewTitle, this.numImages, this.verifiedPurchase);
+		}
+
+		public Builder addFormattedReview(String formattedReview) {
+			this.formattedReview = formattedReview;
+			return this;
 		}
 	}
 
