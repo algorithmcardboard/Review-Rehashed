@@ -58,7 +58,7 @@ Every Review of a product has a unique Review ID, and therefore each review can 
 Data Collection was executed in two phases ---
 
 \begin{description}
-	\item[Amazon Product Crawler: ] Fetches all the unique Ids for all mobile phone products from Amazon.com. This is required to construct the seedUrls for each product as mentioned above in the \hyperref[sec:dataSources] Data Sources Section.
+	\item[Amazon Product Crawler: ] Fetches all the unique Ids for all mobile phone products from Amazon.com. This is required to construct the seedUrls for each product as mentioned above in the \hyperref[sec:dataSources]{Section 2},Data Sources Section.
 	\item[Reviews Crawler: ] This crawler take the output of the the Amazon Product Crawler as the input to construct a seed Url for each product Id. All the unique IDs (ASINs) are stored, which are used to fetch Reviews from each product. These reviews can be accessed from this page through the links in the pagination bar. Eachpage consists of 10 reviews and the crawler goes to the depth until which there are no more review pages to be crawled for that product. Therefore, this product level URL is given as a seedURL for every product to crawl across various review pages through the links in the pagination bar.
 \end{description}
 
