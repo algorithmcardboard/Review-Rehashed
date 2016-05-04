@@ -94,7 +94,7 @@ segments_*
 *.dvi
 *.log
 *.ps
-
+*.bak
 docs
 Prog3Example
 log4j.properties
