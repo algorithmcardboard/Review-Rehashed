@@ -14,5 +14,7 @@ The project uses gradle as build tool.  For building the project
 
 ### Running the web server
 This project uses jetty standalone server to run the web application.  This can be invoked from command line by using
+
     gradlew jettyRun.
+    
 By default, it runs on port 8080.  This can be confgiured in the build.gradle properties.
