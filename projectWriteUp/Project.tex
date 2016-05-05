@@ -96,6 +96,13 @@ The search engine will be built by using the following different components.
   \item[Index store:]  This is a Lucene index store, an inverted index, which maintains all indexable data required while retrieving search results.  The data will be populated and updated periodically by a crawler job that looks for updates to the data.  The data will be stored in lucene after preprocessing.
 \end{description}
 
+\section{List of softwares}
+\begin{description}
+  \item[Development environment] Java 1.7, gradle.
+  \item[Libraries used] Lucene, Jetty, Jsoup, crawler4j, Spring-framework, slf4j, logback, Gsoup, Joda.
+  \item[Data analysis] Hive for analysing amazon product urls.
+\end{description}
+
 \section{Document scoring}
 
 The documents are scored based on a personalized page rank algorithm which takes the intrinsic quality of the document into consideration as well as the lucene score generated. In many search engines, we have available a measure of quality $g(d)$ for each document d that is query-independent and thus static. This quality measure may be viewed as a number between zero and one. The net score for a document d is some combination of $g(d)$ together with the query-dependent score induced by lucene.~\cite{manning2008introduction} This kind of ranking algorithm demands an accumulation of an evidence of a document's relevance from multiple sources. 
@@ -188,6 +195,7 @@ The best results were obtained with the final scoring formula discussed in the S
 			\end{description}
 
 \section{Challenges}
+\subsection{Product development challenges}
 \begin{description}
   \item Understanding the structure of Amazon and BestBuy websites is a huge task. BestBuy has a total of 1493896 product Urls and 
   \item Understanding patterns from sitemap.xml was a time consuming task
@@ -205,6 +213,14 @@ The best results were obtained with the final scoring formula discussed in the S
   \end{tabular}
   \caption{Amazon \& Bestbuy product listings~\label{tab:bestbuy}}
 \end{table}
+
+\subsection{Technical challenges}
+\begin{description}
+  \item[File formats] Crawling the sitemaps with nested folder structure was a difficult process as the files were tar.gz format which has to be extracted to get another list of urls and so on.
+  \item[Customizing crawler4j] We had to do huge amount of customization on crawler4j for fetching only the links pertaining to reviews from a page.  Crawler4j is not easily extensible and changing the behaviour involved using java reflection in a few places.
+  \item[Changing lucene scoring]  Changing lucene's scoring and simialrity functions are pretty hard as lucene uses the similarity metric during the indexing time as well.  Since we had a few custom queries, writing a custom similarity class proved to be hard.
+\end{description}
+
 
 \section{Future work}
 \begin{description}
