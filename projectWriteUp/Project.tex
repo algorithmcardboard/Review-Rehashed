@@ -4,6 +4,7 @@
 \usepackage{systeme}
 \usepackage{graphicx}
 \graphicspath{{images/}}
+\usepackage{tabularx}
 \usepackage{amssymb}
 \usepackage{listings}
 \usepackage[colorlinks]{hyperref}
@@ -191,6 +192,16 @@ The best results were obtained with the final scoring formula discussed in the S
   \item Understanding patterns from sitemap.xml was a time consuming task.
   \item Manually checking the weights was a tedious task, evaluation was difficult.  Have to train the data to tune these weights. (future work)
 \end{description}
+
+\begin{table}
+  \centering
+  \begin{tabular}{c c c} 
+    & Total urls & English product urls \\
+    Amazon & 917262698 & 917262698\\
+    Bestbuy & 1493896 & 754179\\
+  \end{tabular}
+  \caption{Amazon \& Bestbuy product listings~\label{tab:bestbuy}}
+\end{table}
 
 \section{Future work}
 \begin{description}
