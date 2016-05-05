@@ -8,9 +8,6 @@
 \usepackage{listings}
 \usepackage[colorlinks]{hyperref}
 \usepackage[T1]{fontenc}
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\lhead{Himaja Rachakonda, Anirudhan J. Rajagopalan}
 
 \begin{document}
 
@@ -140,16 +137,38 @@ The graph in Figure~\ref{fig:sigmoid} shows the spread of the sigmoid function f
 
 \section{Experiments and Observations}
 The reviews of the products in the search results are compared to the top reviews of those products in Amazon.com. We observed that 80\% of the times all the search results match with the top reviews of the corresponding products in Amazon. The cases where it performs well and where it doesnot perform well are discussed below
+The experiments were performed on the following criteria:
+\begin{enumerate}
+  \item Query boosting --- Changing the boost for the product and feature queries~\ref{fig:noscoring}.
+  \item Modifying the scoring algorithm Figure~\ref{fig:noboosting}.
+  \item Changing the normalization weights~\ref{fig:equal_weights}.
+\end{enumerate}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=1\textwidth]{noscoring}
+  \caption{Default lucene scoring with feature query boost of 0.75 for title and 0.25 for content.~\label{fig:noscoring}}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=1\textwidth]{noboosting}
+  \caption{Default lucene scoring without boosting.~\label{fig:noboosting}}
+\end{figure}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=1\textwidth]{equal_weights}
+  \caption{When the normalization weights are equal.~\label{fig:equal_weights}}
+\end{figure}
 
 \subsection{Positive cases}
-			\begin{description}
-				\item[1.] The best results were obtained with the final scoring formula discussed in the Section 5. This works pretty well for most of the queries with valid product name and feature name.
-					\begin{figure}[ht!]
-					  \centering
-					  \includegraphics[width=1\textwidth]{scoring_piecewise_normalization}
-					  \caption{Scoring with different multiplicative factors for the dependent factors of the score --- numHelpful=0.05, isVerifiedPurchase=100, numComments=0.1, numImages=1~\label{fig:Search_Engine}}
-					\end{figure}
-			\end{description}
+The best results were obtained with the final scoring formula discussed in the Section 5. This works pretty well for most of the queries with valid product name and feature name.
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=1\textwidth]{scoring_piecewise_normalization}
+  \caption{Scoring with different multiplicative factors for the dependent factors of the score --- numHelpful=0.05, isVerifiedPurchase=100, numComments=0.1, numImages=1~\label{fig:Search_Engine}}
+\end{figure}
 
 \subsection{Negative cases}
 			\begin{description}
@@ -187,36 +206,11 @@ The reviews of the products in the search results are compared to the top review
 
 \section{To DO}
 \begin{description}
-\item references
-\item proof reading
-\item hyper references
-
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=1\textwidth]{noscoring}
-  \caption{Default lucene scoring with feature query boost of 0.75 for title and 0.25 for content.~\label{fig:Search_Engine}}
-\end{figure}
-
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=1\textwidth]{noboosting}
-  \caption{Default lucene scoring without boosting.~\label{fig:Search_Engine}}
-\end{figure}
-
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=1\textwidth]{equal_weights}
-  \caption{When the normalization weights are equal.~\label{fig:Search_Engine}}
-\end{figure}
-
-\begin{figure}[ht!]
-  \centering
-  \includegraphics[width=1\textwidth]{a_new_scoring}
-  \caption{This scoring is weird.  But looks decent.~\label{fig:Search_Engine}}
-\end{figure}
-
+  \item references
+  \item proof reading
+  \item hyper references
 \end{description}
+
+\bibliographystyle{plain}
+\bibliography{references}
 \end{document}
-
-
-

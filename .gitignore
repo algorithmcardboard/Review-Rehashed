@@ -103,3 +103,5 @@ log4j.properties
 .venv
 *.tsv
 *.out
+*.blg
+*.bbl
