@@ -197,11 +197,9 @@ The best results were obtained with the final scoring formula discussed in the S
 \section{Challenges}
 \subsection{Product development challenges}
 \begin{description}
-  \item Understanding the structure of Amazon and BestBuy websites is a huge task. BestBuy has a total of 1493896 product Urls and 
-  \item Understanding patterns from sitemap.xml was a time consuming task
-  \item Crawling from a 
-  \item What is a helpful review, upto w
-  \item Manually checking the weights was a tedious task, evaluation was difficult.  Have to train the data to tune these weights. (future work)
+  \item Understanding the structure of Amazon and BestBuy websites is a huge task, given the large number of product categories and urls that can be crawled~\ref{tab:bestbuy}. 
+  \item Web Crawling to fetch data was a major obstacle as our requirement was restricted to review pages of various products. The decision of choosing the set of seedURLs was a confusion, in the beginning. To solve this problem, we analyzed the patterns in the URLs for various catergories, products and then reviews. This analysis led us to choose product URLs to be the seedURLs to fetch reviews of each product.
+  \item In order to score the documents, one major challenge was to understand how helpful a review is to a consumer. We have gone through hundreds of reviews to see patterns of consumers and understand customer behaviours. A proper statistical analysis on these determining factors has to be conducted to find out which factor affects the customers the most. We came up with a personalized page Rank based on a heruristic we had drawn from the sample of reviews we observed.
 \end{description}
 
 \begin{table}
