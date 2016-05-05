@@ -55,8 +55,8 @@ public class MyCustomScoreQuery extends CustomScoreQuery {
 				double docQualityNormalized = (1 / (1 + Math.exp(-docQuality)));
 
 				// System.out.println(luceneScore);
-				logger.info("Lucene score " + luceneScore + " " + luceneScoreNormalized);
-				logger.info("Doc quality " + docQuality + " " + docQualityNormalized);
+//				logger.info("Lucene score " + luceneScore + " " + luceneScoreNormalized);
+//				logger.info("Doc quality " + docQuality + " " + docQualityNormalized);
 
 				// Calculating final score
 				float finalDocScore = (float) (0.25 * docQualityNormalized + 0.75 * luceneScoreNormalized);

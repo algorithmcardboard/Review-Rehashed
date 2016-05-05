@@ -52,7 +52,7 @@ public class SearchController {
 
 		System.out.println("Results size is " + results.size());
 		for (Document doc : results) {
-			System.out.println(doc.getFields(HTMLParser.REVIEW_CONTENT));
+//			System.out.println(doc.getFields(HTMLParser.REVIEW_CONTENT));
 			Builder b = new Builder();
 			b.addAsin(doc.get(HTMLParser.ASIN)).addProductTitle(doc.get(HTMLParser.PRODUCT_TITLE))
 					.addReviewID(doc.get(HTMLParser.REVIEW_ID))

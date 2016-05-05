@@ -61,7 +61,7 @@ public class RetrieverService {
 		for (int i = 0; i < hits.scoreDocs.length; i++) {
 			ScoreDoc scoreDoc = hits.scoreDocs[i];
 			resultDocs.add(is.doc(scoreDoc.doc));
-			System.out.println(scoreDoc.score);
+//			System.out.println(scoreDoc.score);
 		}
 
 		return resultDocs;
@@ -104,6 +104,6 @@ public class RetrieverService {
 			e.printStackTrace();
 		}
 
-		System.out.println("Size of docs is " + docs.size());
+//		System.out.println("Size of docs is " + docs.size());
 	}
 }
